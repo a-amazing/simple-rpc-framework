@@ -42,7 +42,8 @@ public class RpcRequestHandler implements RequestHandler, ServiceProviderRegistr
     public Command handle(Command requestCommand) {
         Header header = requestCommand.getHeader();
         // 从payload中反序列化RpcRequest
-        RpcRequest rpcRequest = SerializeSupport.parse(requestCommand.getPayload());
+        Object obj = SerializeSupport.parse(requestCommand.getPayload());
+        RpcRequest rpcRequest = (RpcRequest)obj;
         try {
             // 查找所有已注册的服务提供方，寻找rpcRequest中需要的服务
             Object serviceProvider = serviceProviders.get(rpcRequest.getInterfaceName());
